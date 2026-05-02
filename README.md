@@ -1,12 +1,31 @@
 # ElectoGuide: The Interactive Election Learning Assistant
 
-ElectoGuide is a premium, lightweight interactive election learning assistant. It features a complete standalone Python CLI application and a visually stunning, responsive browser-based UI built with Vanilla JS, HTML, and CSS (with a space-themed glassmorphism aesthetic).
+ElectoGuide is an interactive election learning assistant designed to educate citizens, students, and political enthusiasts about the complex electoral process of a democracy. It features a responsive browser-based UI built with Vanilla JS, HTML, and CSS (featuring a space-themed aesthetic).
+
+## 🌐 Live Demo
+https://electoguide-655808244864.asia-south1.run.app
 
 ---
 
 ## 🎯 Chosen Vertical
 **Civic Tech & Educational Technology (EdTech)**
-The project focuses on electoral literacy. It aims to educate citizens, students, and political enthusiasts about the complex electoral process of a democracy by breaking it down into understandable, chronological stages.
+The project focuses on electoral literacy. It breaks down the democratic electoral process into an understandable, chronological journey.
+
+---
+
+## ⚙️ GenAI vs Custom Logic
+
+### Handled by GenAI (Google Gemini):
+- Natural language understanding for unscripted queries
+- Contextual, adaptive explanations based on the user's current election stage
+- Dynamic answers to specific user questions (e.g., "What is the voting process?")
+
+### Built manually:
+- State machine and core transition logic (`stateManager.js`)
+- UI/UX design and interaction handling
+- Timeline visualization
+- Voice/audio TTS integration
+- Offline multilingual support (English/Hindi toggle)
 
 ---
 
@@ -14,80 +33,48 @@ The project focuses on electoral literacy. It aims to educate citizens, students
 
 The architecture of ElectoGuide is built around **State-Driven Adaptive Learning**. 
 
-1. **Separation of Concerns**: The application strictly separates data (`election_data.py` / `flow.js`), state management (`flow_manager.py` / `state.js`), and presentation (CLI formatting / DOM manipulation).
+1. **Separation of Concerns**: The application strictly separates data (`electionContent.js`), state management (`stateManager.js` - centralized shared logic), and presentation (DOM manipulation in `app.js`).
 2. **Adaptive Complexity**: The core logic relies on a state machine that tracks the user's *Persona* (Beginner, Student, Advanced) and *Learning Mode* (Guided, Quick, Timeline, Quiz). The system dynamically adjusts the verbosity, tone, and depth of the explanations based on these variables.
 3. **Directed Progression**: The election process is modeled as a linear sequence of events (Announcement → Nomination → Campaigning, etc.). Users navigate this flow via a command parser that interprets actions (`next`, `simple`, `quiz`, `go to counting`) and updates the global state.
-
----
-
-## ⚙️ How the Solution Works
-
-ElectoGuide offers two identical functional experiences: a **Python Command-Line Interface (CLI)** and a **Web Dashboard**.
-
-1. **Initialization**: The user starts by selecting their background (e.g., Beginner) and preferred learning style. This initializes the session state.
-2. **Content Generation**: The engine pulls the current stage's data. If the user is a beginner, it fetches the `simpleExplanation` and `simpleTakeaway`. If advanced, it appends the `deep` dive and `advancedNote`.
-3. **Interaction**: The user interacts with the "Learning Console" by clicking action buttons (Web) or typing commands (CLI). 
-4. **State Mutation**: Actions like pressing "Next" or answering a "Quiz" question trigger state updates (e.g., `currentStage += 1`, `quizScore += 1`). 
-5. **Re-rendering**: The interface immediately re-renders to reflect the new state, updating progress bars, timelines, and the lesson content.
-
----
-
-## 📌 Assumptions Made
-
-- **Generalized Democratic Model**: The election timeline is modeled on a generalized parliamentary democratic system (e.g., similar to India or the UK), standardized into 7 distinct universal phases.
-- **Browser Capabilities**: For the Web UI, it is assumed the user has a modern web browser capable of supporting CSS Grid, Flexbox, and ES6 JavaScript. 
-- **No External Dependencies (Except API Client)**: It is assumed that a lightweight architecture is preferred. Therefore, no heavy frontend frameworks (like React or Vue) were used. The only external Python package is `google-genai` for the AI integration.
-- **Local Persistence**: It is assumed that `sessionStorage` and `localStorage` are enabled in the user's browser to persist setup preferences between the landing page and the main dashboard.
 
 ---
 
 ## 🤖 Google Services Integration
 
 To fulfill the requirement for meaningful integration of Google Services, ElectoGuide integrates the **Google Gemini API** (`gemini-2.5-flash`). 
-- **Context-Aware Q&A**: If a user types a custom question into the Web Dashboard's Command Bar or the Python CLI, the application sends the user's question along with the *current election stage* to the Gemini API. 
+
+**Why Gemini 2.5 Flash?**
+- **Latency Advantage**: Flash provides near-instantaneous responses, which is critical for a smooth, conversational educational flow.
+- **Cost Efficiency**: It is highly cost-effective for generating short, contextual educational explanations at scale.
+
+- **Context-Aware Q&A**: If a user types a custom question into the Web Dashboard's Command Bar, the application sends the user's question along with the *current election stage* to the Gemini API. 
 - **Dynamic Learning**: The AI generates a concise, contextually accurate response that explains the complex electoral nuance, returning it directly to the UI's Learning Console.
-- **Secure Backend**: The API key is securely loaded via a `.env` file on the Python backend (`start.py`), which exposes a lightweight `/api/chat` endpoint for the frontend to query safely.
 
 ---
 
-## 🚀 Getting Started
+## 🧠 Prompt Engineering Evolution
 
-### Option 1: Web Application (Recommended)
-1. Run the local development server:
-   ```bash
-   python start.py
-   ```
-2. The server will start on `http://127.0.0.1:8000/`.
-3. Start at the landing page to select your profile, then proceed to the main learning dashboard.
-
-### Option 2: Python CLI Application
-1. Open your terminal in the project directory.
-2. Run the main CLI script:
-   ```bash
-   python main.py
-   ```
-3. Follow the on-screen prompts. You can navigate by typing commands like `next`, `simple`, `deep`, `quiz`, or `go to voting`.
-
-## 🧪 Testing
-
-The Python core includes a test suite to ensure logical integrity. To run the automated tests:
-```bash
-python -m unittest discover -s tests
-```
+Throughout development, our prompt structure evolved to improve accuracy and context:
+- **Initial Phase**: Initial prompts were generic Q&A (e.g., "Answer this user question: {question}"). This resulted in overly broad answers.
+- **Context Injection**: Improved by adding the current election stage context (e.g., "The user is in the 'Polling Day' stage. Answer: {question}").
+- **Final Prompt Structure**:
+  - Persona instructions ("You are ElectoGuide, an expert AI election assistant.")
+  - Current stage context injected dynamically
+  - User query
+  - Output constraints ("Provide a short, direct, and highly informative answer. max 3-4 sentences. Do not use markdown headers.")
+- **Result**: This ensured context-aware, adaptive, and consistently formatted responses.
 
 ---
 
 ## ✨ Advanced Features
 
-ElectoGuide includes several real-world accessibility and multi-modal features designed to improve usability for a diverse audience:
+ElectoGuide includes several accessibility and multi-modal features designed to improve usability for a diverse audience:
 
-- **Voice Input (Web Speech API):** Hands-free command execution. Users can click the microphone icon 🎤 to speak their questions or commands. The system instantly transcribes and submits them using native browser technology, adapting its language models based on the active English/Hindi state.
-- **Audio-Based Learning Mode:** A native Text-to-Speech integration using the `SpeechSynthesis` API. Users can click the "🔊 Listen" button to have the full context of the current card (Title, Explanation, Example, Question, and Hint) read aloud automatically. Includes voice selection and rapid-click safety.
-- **Multilingual Support (English + Hindi):** A complete offline translation dictionary instantly translates 100% of the user interface, stage descriptions, and quiz content into Hindi dynamically without relying on external API calls.
+- **Voice Input (Web Speech API):** Hands-free command execution. Users can click the microphone icon 🎤 to speak their questions or commands. The system transcribes and submits them using native browser technology.
+- **Audio-Based Learning Mode:** A native Text-to-Speech integration using the `SpeechSynthesis` API. Users can click the "🔊 Listen" button to have the full context of the current card read aloud automatically. 
+- **Multilingual Support (English + Hindi):** A rule-based offline translation system instantly translates the user interface, stage descriptions, and quiz content into Hindi dynamically.
 - **Interactive Visual Timeline:** The "Timeline Mode" isn't just a list—it's a responsive, vertical UI stepper with glowing neon accents and pulsing waypoints that physically visualizes the user's journey through the election process.
-- **Accessibility Enhancements:** Features include a specialized "Explain Like I'm 10" mode that drastically simplifies vocabulary and sentence structure, alongside an upgraded design system with larger, more readable fonts and clear ARIA-compliant button labels.
-
-These features transform the assistant from a static prototype into an inclusive, polished educational product capable of winning hackathons.
+- **Accessibility Enhancements:** Features include a specialized "Explain Like I'm 10" mode that simplifies vocabulary and sentence structure, alongside a design system with larger, readable fonts and ARIA-compliant button labels.
 
 ---
 
@@ -103,26 +90,37 @@ To demonstrate maximum impact, use this exact narrative flow during a pitch:
 
 ---
 
-## ☁️ Deployment (Google Cloud Run)
+## ☁️ Deploying the Application (Google Cloud Run)
 
-ElectoGuide is fully containerized and ready to be deployed to Google Cloud Run using the provided `Dockerfile`.
+1. Open your terminal (PowerShell or Command Prompt) in the project directory.
 
-### Prerequisites
-Make sure you have the [Google Cloud CLI (`gcloud`)](https://cloud.google.com/sdk/docs/install) installed and authenticated.
+2. (Optional but recommended) Set your active project:
+```bash
+gcloud config set project YOUR_PROJECT_ID
+```
 
-### Deploying the Application
+3. For Windows PowerShell users, run:
+```powershell
+$env:PYTHONUTF8=1
+```
 
-1. Open your terminal in the project directory.
-2. Run the following command to deploy directly from source:
+4. Deploy the application using:
+```bash
+gcloud run deploy electoguide --source . --platform managed --region asia-south1 --allow-unauthenticated --port 8080 --set-env-vars GEMINI_API_KEY=<your-api-key>
+```
+> **Note**: For production environments, use Google Secret Manager instead of inline env vars.
+
+5. Wait for the build and deployment to complete. Once finished, the CLI will output a Service URL.
+6. Open the Service URL in your browser to access the live application.
+
+---
+
+## 💻 Additional Interfaces
+
+### Python CLI Application
+While the Web Dashboard is the primary experience, ElectoGuide also includes a fully functional Python Command-Line Interface.
+1. Run the main CLI script:
    ```bash
-   gcloud run deploy electoguide \
-     --source . \
-     --allow-unauthenticated \
-     --set-env-vars GEMINI_API_KEY="your-api-key-here" \
-     --port 8080
+   python main.py
    ```
-3. Follow the prompts to select a region.
-4. Once deployed, the CLI will output the **Service URL**. You can visit this URL to use the ElectoGuide web application live!
-
-**Note on Environment Variables:** 
-The `--set-env-vars` flag is used to pass your secret `GEMINI_API_KEY` to the Cloud Run environment. Ensure you replace `"your-api-key-here"` with your actual Gemini API key before running the command.
+2. Navigate by typing commands like `next`, `simple`, `deep`, `quiz`, or `go to voting`.

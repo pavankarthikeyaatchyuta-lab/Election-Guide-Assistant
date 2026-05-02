@@ -112,24 +112,26 @@ function render() {
       "</div>" +
       '<div class="assistant-copy">' +
       '<p>' + view.explanation + "</p>" +
-      '<p><strong>Example:</strong> ' + view.example + "</p>" +
-      '<p><strong>Question:</strong> ' + view.question + "</p>" +
+      (view.example ? '<p><strong>Example:</strong> ' + view.example + "</p>" : "") +
+      (view.question ? '<p><strong>Question:</strong> ' + view.question + "</p>" : "") +
       (view.summary ? '<p><strong>Summary:</strong> ' + view.summary + "</p>" : "") +
-      '<p><strong>Hint:</strong> ' + view.hint + "</p>" +
+      (view.hint ? '<p><strong>Hint:</strong> ' + view.hint + "</p>" : "") +
       "</div>" +
       '<div class="detail-grid">' +
-      view.detailSections.map(function (section) {
-        return (
-          '<section class="detail-box">' +
-          '<p class="detail-title">' + section.title + "</p>" +
-          '<ul class="detail-list">' +
-          section.items.map(function (item) {
-            return "<li>" + item + "</li>";
-          }).join("") +
-          "</ul>" +
-          "</section>"
-        );
-      }).join("") +
+      (view.detailSections.length === 0 
+        ? '<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--muted); font-style: italic; border: 1px dashed rgba(126, 249, 255, 0.2); border-radius: 12px;">Start your journey or switch modes to see detailed breakdowns!</div>'
+        : view.detailSections.map(function (section) {
+            return (
+              '<section class="detail-box">' +
+              '<p class="detail-title">' + section.title + "</p>" +
+              '<ul class="detail-list">' +
+              section.items.map(function (item) {
+                return "<li>" + item + "</li>";
+              }).join("") +
+              "</ul>" +
+              "</section>"
+            );
+          }).join("")) +
       "</div>" +
       "</div>";
   }
@@ -145,15 +147,17 @@ function render() {
 
   if (timelinePanel && timelineList) {
     timelinePanel.hidden = view.timeline.length === 0;
-    timelineList.innerHTML = view.timeline.map(function (entry) {
-      return (
-        '<article class="timeline-item">' +
-        '<p class="timeline-day">' + entry.day + "</p>" +
-        '<p class="timeline-event">' + entry.event + "</p>" +
-        '<p class="timeline-description">' + entry.description + "</p>" +
-        "</article>"
-      );
-    }).join("");
+    timelineList.innerHTML = view.timeline.length === 0 
+      ? '<div style="text-align: center; padding: 2rem; color: var(--muted); font-style: italic;">No timeline events available yet.</div>'
+      : view.timeline.map(function (entry) {
+          return (
+            '<article class="timeline-item">' +
+            '<p class="timeline-day eyebrow">' + entry.day + "</p>" +
+            '<p class="timeline-event">' + entry.event + "</p>" +
+            '<p class="timeline-description">' + entry.description + "</p>" +
+            "</article>"
+          );
+        }).join("");
   }
 
   if (state.lastAction === "speak" && state.isSpeaking) {
@@ -217,7 +221,7 @@ if (commandForm) {
     const parsed = parseCommand(input);
 
     if (!parsed) {
-      state.systemHint = "Asking AI... please wait.";
+      state.systemHint = '<span class="thinking-pulse">🧠 Asking AI</span><span class="thinking-dots"></span>';
       render();
 
       try {

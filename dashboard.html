@@ -26,7 +26,14 @@
           <h1 class="topbar-title">Election Learning Workspace</h1>
         </div>
         <div id="session-summary" class="topbar-pills"></div>
-        <a class="ghost-link" href="./index.html">Change Setup</a>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <select id="language-select" class="status-pill" style="cursor: pointer; border: 1px solid var(--border); background: var(--surface);">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+          </select>
+          <button id="audio-button" class="status-pill" style="cursor: pointer; border: 1px solid var(--border); background: var(--surface);">🔊 Listen</button>
+          <a class="ghost-link" href="./index.html">Change Setup</a>
+        </div>
       </header>
 
       <section class="dashboard-grid">
@@ -129,6 +136,6 @@
       </section>
     </main>
 
-    <script src="./src/app.js"></script>
+    <script type="module" src="./src/app.js"></script>
   </body>
 </html>

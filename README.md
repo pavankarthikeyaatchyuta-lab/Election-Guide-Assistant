@@ -74,3 +74,41 @@ The Python core includes a test suite to ensure logical integrity. To run the au
 ```bash
 python -m unittest discover -s tests
 ```
+
+---
+
+## ✨ Advanced Features
+
+ElectoGuide includes several real-world accessibility and multi-modal features designed to improve usability for a diverse audience:
+
+- **Audio-Based Learning Mode:** A native Text-to-Speech integration using the `SpeechSynthesis` API. Users can click the "🔊 Listen" button to have the full context of the current card (Title, Explanation, Example, Question, and Hint) read aloud automatically. Includes voice selection and rapid-click safety.
+- **Multilingual Support (English + Hindi):** A complete offline translation dictionary instantly translates 100% of the user interface, stage descriptions, and quiz content into Hindi dynamically without relying on external API calls.
+- **Accessibility Enhancements:** Features include a specialized "Explain Like I'm 10" mode that drastically simplifies vocabulary and sentence structure, alongside an upgraded design system with larger, more readable fonts and clear ARIA-compliant button labels.
+
+These features transform the assistant from a static prototype into an inclusive, polished educational product.
+
+---
+
+## ☁️ Deployment (Google Cloud Run)
+
+ElectoGuide is fully containerized and ready to be deployed to Google Cloud Run using the provided `Dockerfile`.
+
+### Prerequisites
+Make sure you have the [Google Cloud CLI (`gcloud`)](https://cloud.google.com/sdk/docs/install) installed and authenticated.
+
+### Deploying the Application
+
+1. Open your terminal in the project directory.
+2. Run the following command to deploy directly from source:
+   ```bash
+   gcloud run deploy electoguide \
+     --source . \
+     --allow-unauthenticated \
+     --set-env-vars GEMINI_API_KEY="your-api-key-here" \
+     --port 8080
+   ```
+3. Follow the prompts to select a region.
+4. Once deployed, the CLI will output the **Service URL**. You can visit this URL to use the ElectoGuide web application live!
+
+**Note on Environment Variables:** 
+The `--set-env-vars` flag is used to pass your secret `GEMINI_API_KEY` to the Cloud Run environment. Ensure you replace `"your-api-key-here"` with your actual Gemini API key before running the command.

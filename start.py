@@ -8,8 +8,13 @@ import os
 def load_env():
     env_path = Path(__file__).parent / ".env"
     if env_path.exists():
-        for line in env_path.read_text().splitlines():
-            line = line.strip()
+        try:
+            content = env_path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            content = env_path.read_text(encoding="utf-16")
+        
+        for line in content.splitlines():
+            line = line.replace("\x00", "").strip()
             if line and not line.startswith("#") and "=" in line:
                 key, value = line.split("=", 1)
                 os.environ[key.strip()] = value.strip()
@@ -73,11 +78,13 @@ class APITryingRequestHandler(SimpleHTTPRequestHandler):
 
 
 def main() -> None:
-    host = "127.0.0.1"
-    port = 8000
-    url = f"http://{host}:{port}/dashboard.html"
-    print(f"ElectoGuide running at {url}")
-    webbrowser.open(url)
+    host = "0.0.0.0"
+    port = int(os.environ.get("PORT", 8000))
+    url = f"http://127.0.0.1:{port}/dashboard.html"
+    print(f"ElectoGuide running at port {port}")
+    # Only open browser if running locally (not in Cloud Run)
+    if not os.environ.get("PORT"):
+        webbrowser.open(url)
     ThreadingHTTPServer((host, port), APITryingRequestHandler).serve_forever()
 
 

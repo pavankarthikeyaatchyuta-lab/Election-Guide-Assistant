@@ -52,3 +52,33 @@ test("unknown commands return a helpful hint", () => {
 
   assert.equal(view.hint.includes("next"), true);
 });
+
+test("language switch translates text", () => {
+  let state = initializeSession("beginner", "guided", "en");
+  let view = buildView(state);
+  assert.equal(view.title, "Announcement");
+  
+  state = applyAction(state, "language", "hi");
+  view = buildView(state);
+  assert.equal(view.title, "घोषणा");
+});
+
+test("progress update displays correctly", () => {
+  let state = initializeSession("beginner", "guided");
+  
+  assert.equal(buildView(state).progress, "[✔⬜⬜⬜⬜⬜⬜]");
+  
+  state = applyAction(state, "next");
+  assert.equal(buildView(state).progress, "[✔✔⬜⬜⬜⬜⬜]");
+  
+  state = applyAction(state, "goto", "voting");
+  assert.equal(buildView(state).progress, "[✔✔✔✔✔⬜⬜]");
+});
+
+test("command handling parses accessibility commands", () => {
+  const state = initializeSession("beginner", "guided");
+  const nextState = applyCommand(state, "explain like i'm 10");
+  
+  assert.equal(nextState.detail, "simple");
+  assert.equal(nextState.lastAction, "simple");
+});

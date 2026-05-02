@@ -81,11 +81,25 @@ python -m unittest discover -s tests
 
 ElectoGuide includes several real-world accessibility and multi-modal features designed to improve usability for a diverse audience:
 
+- **Voice Input (Web Speech API):** Hands-free command execution. Users can click the microphone icon 🎤 to speak their questions or commands. The system instantly transcribes and submits them using native browser technology, adapting its language models based on the active English/Hindi state.
 - **Audio-Based Learning Mode:** A native Text-to-Speech integration using the `SpeechSynthesis` API. Users can click the "🔊 Listen" button to have the full context of the current card (Title, Explanation, Example, Question, and Hint) read aloud automatically. Includes voice selection and rapid-click safety.
 - **Multilingual Support (English + Hindi):** A complete offline translation dictionary instantly translates 100% of the user interface, stage descriptions, and quiz content into Hindi dynamically without relying on external API calls.
+- **Interactive Visual Timeline:** The "Timeline Mode" isn't just a list—it's a responsive, vertical UI stepper with glowing neon accents and pulsing waypoints that physically visualizes the user's journey through the election process.
 - **Accessibility Enhancements:** Features include a specialized "Explain Like I'm 10" mode that drastically simplifies vocabulary and sentence structure, alongside an upgraded design system with larger, more readable fonts and clear ARIA-compliant button labels.
 
-These features transform the assistant from a static prototype into an inclusive, polished educational product.
+These features transform the assistant from a static prototype into an inclusive, polished educational product capable of winning hackathons.
+
+---
+
+## 🎤 Hackathon Demo Narrative
+
+To demonstrate maximum impact, use this exact narrative flow during a pitch:
+
+1. **The Hook:** *"Imagine a first-time voter in a rural area who has no idea how an EVM works. They don't need a textbook, they need a guide."*
+2. **The Voice Demo:** *"Instead of typing, they can just ask."* → Click the 🎤 button and speak *"What is the voting process?"*
+3. **The Multimodal Shift:** Let the AI generate the explanation. Then say, *"But what if they don't read English well?"* → Instantly switch the language dropdown to **Hindi**. The entire UI instantly translates offline. 
+4. **The Accessibility Win:** Hit the **🔊 Listen** button and let the browser read the Hindi explanation aloud.
+5. **The Visual Finish:** Switch to the "Timeline View" mode and scroll through the glowing visual journey to show how the system visualizes complex data.
 
 ---
 

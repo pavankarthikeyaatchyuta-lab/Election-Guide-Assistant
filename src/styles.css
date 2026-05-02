@@ -600,6 +600,58 @@ button:disabled {
   background: rgba(167, 255, 154, 0.12);
 }
 
+/* Voice Input & Demo Chips */
+.voice-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(126, 249, 255, 0.3);
+  background: rgba(126, 249, 255, 0.08);
+  color: var(--cyan);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.voice-button:hover {
+  background: rgba(126, 249, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.voice-button.recording {
+  background: rgba(255, 100, 100, 0.15);
+  border-color: rgba(255, 100, 100, 0.5);
+  color: #ff6464;
+  animation: pulse-record 1.5s infinite;
+}
+
+@keyframes pulse-record {
+  0% { box-shadow: 0 0 0 0 rgba(255, 100, 100, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 100, 100, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 100, 100, 0); }
+}
+
+.demo-chip {
+  padding: 0.5rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demo-chip:hover {
+  background: rgba(126, 249, 255, 0.1);
+  border-color: rgba(126, 249, 255, 0.3);
+  color: var(--cyan);
+}
+
 .option-button[data-state="wrong"] {
   border-color: rgba(255, 151, 151, 0.42);
   background: rgba(255, 151, 151, 0.12);

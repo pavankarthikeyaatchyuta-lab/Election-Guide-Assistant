@@ -213,9 +213,7 @@ function renderActions(actions) {
 }
 
 if (commandForm) {
-  commandForm.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const input = new FormData(commandForm).get("command");
+  const submitCommand = async (input) => {
     const parsed = parseCommand(input);
 
     if (!parsed) {
@@ -250,6 +248,72 @@ if (commandForm) {
       commandForm.reset();
       render();
     }
+  };
+
+  commandForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const input = new FormData(commandForm).get("command");
+    submitCommand(input);
+  });
+  
+  // Voice Input Logic
+  const voiceBtn = document.getElementById("voice-input-btn");
+  if (voiceBtn) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = state.language === "hi" ? "hi-IN" : "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = function() {
+        voiceBtn.classList.add("recording");
+        voiceBtn.title = "Listening...";
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        const inputField = document.getElementById("command-input");
+        if (inputField) {
+          inputField.value = transcript;
+          submitCommand(transcript);
+        }
+      };
+
+      recognition.onerror = function(event) {
+        console.error("Speech recognition error", event.error);
+        voiceBtn.classList.remove("recording");
+        voiceBtn.title = "Voice Input Error";
+        state.systemHint = "Microphone error: " + event.error;
+        render();
+      };
+
+      recognition.onend = function() {
+        voiceBtn.classList.remove("recording");
+        voiceBtn.title = "Voice Input";
+      };
+
+      voiceBtn.addEventListener("click", function() {
+        // Update language just in case it changed since init
+        recognition.lang = state.language === "hi" ? "hi-IN" : "en-US";
+        recognition.start();
+      });
+    } else {
+      voiceBtn.style.display = "none";
+    }
+  }
+
+  // Demo Chips Logic
+  const demoChips = document.querySelectorAll(".demo-chip");
+  demoChips.forEach(chip => {
+    chip.addEventListener("click", function() {
+      const text = this.textContent;
+      const inputField = document.getElementById("command-input");
+      if (inputField) {
+        inputField.value = text;
+        submitCommand(text);
+      }
+    });
   });
 }
 

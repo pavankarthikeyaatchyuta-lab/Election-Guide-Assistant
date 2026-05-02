@@ -119,7 +119,7 @@
               <p class="eyebrow">Quick Navigation</p>
               <h2>Command Bar</h2>
             </div>
-            <form id="command-form" class="command-form">
+            <form id="command-form" class="command-form" style="position: relative; display: flex; gap: 8px;">
               <label class="sr-only" for="command-input">Command</label>
               <input
                 id="command-input"
@@ -127,10 +127,21 @@
                 type="text"
                 placeholder="next, simple, go to voting"
                 autocomplete="off"
+                style="flex: 1;"
               />
+              <button type="button" id="voice-input-btn" class="voice-button" aria-label="Start voice input" title="Voice Input">🎤</button>
               <button type="submit" class="primary-button">Run</button>
             </form>
             <p class="helper-copy">Use `skip`, `deep`, `quiz`, or `go to counting`.</p>
+            
+            <div class="demo-flows" style="margin-top: 1rem;">
+              <p class="eyebrow" style="margin-bottom: 8px;">Demo Flows</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <button type="button" class="demo-chip">Explain voting process</button>
+                <button type="button" class="demo-chip">Explain EVM</button>
+                <button type="button" class="demo-chip">Explain election timeline</button>
+              </div>
+            </div>
           </section>
         </aside>
       </section>

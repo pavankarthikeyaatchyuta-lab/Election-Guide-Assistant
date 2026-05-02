@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ElectoGuide | Dashboard</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body class="dashboard-page">
+    <div class="space-scene" aria-hidden="true">
+      <div class="stars stars-far"></div>
+      <div class="stars stars-mid"></div>
+      <div class="stars stars-near"></div>
+      <div class="nebula nebula-left"></div>
+      <div class="nebula nebula-right"></div>
+      <div class="planet planet-large"></div>
+      <div class="planet planet-small"></div>
+      <div class="comet comet-one"></div>
+      <div class="comet comet-two"></div>
+    </div>
+
+    <main class="dashboard-shell">
+      <header class="topbar card">
+        <div>
+          <p class="eyebrow">ElectoGuide Dashboard</p>
+          <h1 class="topbar-title">Election Learning Workspace</h1>
+        </div>
+        <div id="session-summary" class="topbar-pills"></div>
+        <a class="ghost-link" href="./index.html">Change Setup</a>
+      </header>
+
+      <section class="dashboard-grid">
+        <section class="main-column">
+          <article class="progress-card card">
+            <div class="progress-head">
+              <div>
+                <p class="eyebrow">Progress</p>
+                <p id="progress-text" class="progress-text">[⬜⬜⬜⬜⬜⬜⬜]</p>
+              </div>
+              <div>
+                <p class="eyebrow">Mode</p>
+                <p id="mode-text" class="mode-text">Not started</p>
+              </div>
+            </div>
+            <div id="progress-bar" class="progress-bar" aria-hidden="true">
+              <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <div id="signal-list" class="signal-list"></div>
+          </article>
+
+          <section class="stage-card card">
+            <div class="section-head inline-head">
+              <div>
+                <p class="eyebrow">Election Flow</p>
+                <h2>Stage Navigator</h2>
+              </div>
+              <p class="helper-copy">Click any stage to jump directly.</p>
+            </div>
+            <div id="stage-rail" class="stage-rail"></div>
+          </section>
+
+          <section class="lesson-card card">
+            <div class="section-head inline-head">
+              <div>
+                <p class="eyebrow">Lesson Content</p>
+                <h2 id="card-title">Learning Console</h2>
+              </div>
+              <span id="detail-pill" class="status-pill">Default</span>
+            </div>
+            <article id="assistant-card" class="assistant-card" aria-live="polite"></article>
+            <div id="quiz-options" class="quiz-options"></div>
+            <div id="action-row" class="action-row"></div>
+          </section>
+
+          <section id="timeline-panel" class="timeline-card card" hidden>
+            <div class="section-head">
+              <p class="eyebrow">Timeline View</p>
+              <h2>Election Schedule</h2>
+            </div>
+            <div id="timeline-list" class="timeline-list"></div>
+          </section>
+        </section>
+
+        <aside class="side-column">
+          <section class="state-card card">
+            <div class="section-head">
+              <p class="eyebrow">Learning Setup</p>
+              <h2>Session Controls</h2>
+            </div>
+            <form id="profile-form" class="setup-form">
+              <label for="profile-user-type">User Type</label>
+              <select id="profile-user-type" name="userType">
+                <option value="beginner">Beginner</option>
+                <option value="student">Student</option>
+                <option value="advanced">Advanced</option>
+              </select>
+
+              <label for="profile-learning-mode">Learning Mode</label>
+              <select id="profile-learning-mode" name="learningMode">
+                <option value="quick">Quick Overview</option>
+                <option value="guided">Guided Journey</option>
+                <option value="timeline">Timeline View</option>
+                <option value="quiz">Quiz Mode</option>
+              </select>
+
+              <button type="submit" class="primary-button">Update Session</button>
+            </form>
+          </section>
+
+          <section class="command-card card">
+            <div class="section-head">
+              <p class="eyebrow">Quick Navigation</p>
+              <h2>Command Bar</h2>
+            </div>
+            <form id="command-form" class="command-form">
+              <label class="sr-only" for="command-input">Command</label>
+              <input
+                id="command-input"
+                name="command"
+                type="text"
+                placeholder="next, simple, go to voting"
+                autocomplete="off"
+              />
+              <button type="submit" class="primary-button">Run</button>
+            </form>
+            <p class="helper-copy">Use `skip`, `deep`, `quiz`, or `go to counting`.</p>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./src/app.js"></script>
+  </body>
+</html>

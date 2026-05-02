@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ElectoGuide | Start</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body class="landing-page">
+    <div class="space-scene" aria-hidden="true">
+      <div class="stars stars-far"></div>
+      <div class="stars stars-mid"></div>
+      <div class="stars stars-near"></div>
+      <div class="nebula nebula-left"></div>
+      <div class="nebula nebula-right"></div>
+      <div class="planet planet-large"></div>
+      <div class="planet planet-small"></div>
+      <div class="comet comet-one"></div>
+      <div class="comet comet-two"></div>
+    </div>
+
+    <main class="landing-shell">
+      <section class="landing-hero card">
+        <p class="eyebrow">Interactive Election Learning Assistant</p>
+        <h1>ElectoGuide</h1>
+        <p class="hero-copy">
+          Learn the election process through a clean guided dashboard with
+          adaptive explanations, stage navigation, timeline support, and quiz
+          feedback.
+        </p>
+        <div class="hero-pills">
+          <span>Beginner to Advanced</span>
+          <span>Guided Journey</span>
+          <span>Timeline View</span>
+          <span>Quiz Mode</span>
+        </div>
+      </section>
+
+      <section class="launch-card card">
+        <div class="section-head">
+          <p class="eyebrow">Session Setup</p>
+          <h2>Start Learning</h2>
+        </div>
+
+        <form id="setup-form" class="setup-form">
+          <label for="user-type">User Type</label>
+          <select id="user-type" name="userType">
+            <option value="beginner">Beginner</option>
+            <option value="student">Student</option>
+            <option value="advanced">Advanced</option>
+          </select>
+
+          <label for="learning-mode">Learning Mode</label>
+          <select id="learning-mode" name="learningMode">
+            <option value="quick">Quick Overview</option>
+            <option value="guided">Guided Journey</option>
+            <option value="timeline">Timeline View</option>
+            <option value="quiz">Quiz Mode</option>
+          </select>
+
+          <button type="submit" class="primary-button">Open Dashboard</button>
+        </form>
+
+        <p class="helper-copy">
+          The dashboard opens with your preferences saved, so the interface can
+          feel focused from the first screen.
+        </p>
+      </section>
+    </main>
+
+    <script src="./src/landing.js"></script>
+  </body>
+</html>

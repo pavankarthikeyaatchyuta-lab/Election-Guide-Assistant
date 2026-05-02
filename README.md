@@ -7,6 +7,11 @@ https://electoguide-655808244864.asia-south1.run.app
 
 ---
 
+## 📢 Project Announcement
+Check out the [official launch post on LinkedIn](https://www.linkedin.com/posts/pavan-karthikeya-atchyuta-3a5040354_promptwarsvirtual-buildwithai-promptwarsvirtual-ugcPost-7456380450064846848-IdGf?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFhIRi0Bgd3lw3t73PozqDSMLW6jDLjPfL8).
+
+---
+
 ## 🎯 Chosen Vertical
 **Civic Tech & Educational Technology (EdTech)**
 The project focuses on electoral literacy. It breaks down the democratic electoral process into an understandable, chronological journey.
@@ -41,7 +46,12 @@ The architecture of ElectoGuide is built around **State-Driven Adaptive Learning
 
 ## 🤖 Google Services Integration
 
-To fulfill the requirement for meaningful integration of Google Services, ElectoGuide integrates the **Google Gemini API** (`gemini-2.5-flash`). 
+To fulfill the requirement for meaningful integration of Google Services, ElectoGuide natively integrates multiple Google Cloud APIs:
+
+1. **Google Gemini API** (`gemini-2.5-flash`): Powers the contextual AI assistant to provide dynamic, stage-aware explanations.
+2. **Google Cloud Firestore**: Provides a robust backend logging mechanism to safely track interaction events and user queries.
+3. **Google Cloud Storage**: Initialized within the backend environment to prepare for scalable static asset and state storage.
+4. **Google Cloud Run**: The entire application is containerized and deployed as a scalable, serverless container on GCP.
 
 **Why Gemini 2.5 Flash?**
 - **Latency Advantage**: Flash provides near-instantaneous responses, which is critical for a smooth, conversational educational flow.
@@ -104,11 +114,11 @@ gcloud config set project YOUR_PROJECT_ID
 $env:PYTHONUTF8=1
 ```
 
-4. Deploy the application using:
-```bash
-gcloud run deploy electoguide --source . --platform managed --region asia-south1 --allow-unauthenticated --port 8080 --set-env-vars GEMINI_API_KEY=<your-api-key>
+4. Deploy the application using the Dockerfile configuration:
+```powershell
+gcloud run deploy electoguide --source . --region asia-south1 --project electoguide-495113 --allow-unauthenticated --port 8080
 ```
-> **Note**: For production environments, use Google Secret Manager instead of inline env vars.
+> **Note**: For first-time deployment, you must also pass your API key by adding `--set-env-vars GEMINI_API_KEY=<your-api-key>` to the command above. Subsequent deployments will preserve this key.
 
 5. Wait for the build and deployment to complete. Once finished, the CLI will output a Service URL.
 6. Open the Service URL in your browser to access the live application.

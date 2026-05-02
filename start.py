@@ -28,6 +28,33 @@ except Exception as e:
     client = None
     print(f"Warning: Gemini API client could not be initialized. {e}")
 
+from google.cloud import storage
+from google.cloud import firestore
+
+try:
+    storage_client = storage.Client()
+    buckets = list(storage_client.list_buckets())
+except Exception as e:
+    print("Storage init failed:", e)
+
+db = None
+try:
+    db = firestore.Client()
+except Exception as e:
+    print("Firestore init failed:", e)
+
+def log_interaction(event_type, data):
+    if not db:
+        return
+    try:
+        db.collection("logs").add({
+            "event": event_type,
+            "data": data,
+            "timestamp": firestore.SERVER_TIMESTAMP
+        })
+    except Exception as e:
+        print("Logging failed:", e)
+
 
 class APITryingRequestHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -36,13 +63,15 @@ class APITryingRequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         if self.path == '/api/chat':
-            content_length = int(self.headers['Content-Length'])
+            content_length = int(self.headers.get('Content-Length', 0))
             post_data = self.rfile.read(content_length)
             
             try:
                 data = json.loads(post_data.decode('utf-8'))
                 stage_context = data.get('stageContext', '')
-                user_question = data.get('question', '')
+                user_question = data.get('question', '').strip()[:500]
+                
+                log_interaction("user_query", user_question)
                 
                 if not client:
                     raise Exception("Gemini client is not initialized (missing API key).")

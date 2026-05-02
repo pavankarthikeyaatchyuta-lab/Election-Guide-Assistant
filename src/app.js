@@ -316,7 +316,7 @@
     const nextState = cloneState(state);
 
     if (!parsed) {
-      nextState.systemHint = "Try `next`, `simple`, `quiz`, or `go to voting`.";
+      nextState.systemHint = "Asking AI... please wait.";
       nextState.transitionTick += 1;
       return nextState;
     }
@@ -891,12 +891,43 @@
     }).join("");
   }
 
-  commandForm.addEventListener("submit", function (event) {
+  commandForm.addEventListener("submit", async function (event) {
     event.preventDefault();
     const input = new FormData(commandForm).get("command");
-    state = applyCommand(state, input);
-    commandForm.reset();
-    render();
+    const parsed = parseCommand(input);
+
+    if (!parsed) {
+      state.systemHint = "Asking AI... please wait.";
+      render();
+
+      try {
+        const stageLabel = STAGES[state.currentStage].label;
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: input, stageContext: stageLabel })
+        });
+        
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+
+        const data = await response.json();
+        if (data.answer) {
+          state.systemHint = "💡 AI: " + data.answer;
+        } else {
+          state.systemHint = "API Error: " + (data.error || "Unknown error");
+        }
+      } catch (error) {
+        state.systemHint = "Error connecting to AI backend. Make sure `python start.py` is running.";
+      }
+      commandForm.reset();
+      render();
+    } else {
+      state = applyAction(state, parsed.type, parsed.payload);
+      commandForm.reset();
+      render();
+    }
   });
 
   if (profileForm) {

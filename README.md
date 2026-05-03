@@ -85,6 +85,7 @@ ElectoGuide includes several accessibility and multi-modal features designed to 
 - **Multilingual Support (English + Hindi):** A rule-based offline translation system instantly translates the user interface, stage descriptions, and quiz content into Hindi dynamically.
 - **Interactive Visual Timeline:** The "Timeline Mode" isn't just a list—it's a responsive, vertical UI stepper with glowing neon accents and pulsing waypoints that physically visualizes the user's journey through the election process.
 - **Accessibility Enhancements:** Features include a specialized "Explain Like I'm 10" mode that simplifies vocabulary and sentence structure, alongside a design system with larger, readable fonts and ARIA-compliant button labels.
+- **Security & Robustness:** Backend payload validation is strictly enforced with 500-character payload limits to prevent abuse and optimized header parsing to ensure the server never crashes on malformed HTTP requests.
 
 ---
 

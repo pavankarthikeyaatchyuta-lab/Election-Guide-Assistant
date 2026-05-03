@@ -2,6 +2,8 @@
 
 ElectoGuide is an interactive election learning assistant designed to educate citizens, students, and political enthusiasts about the complex electoral process of a democracy. It features a responsive browser-based UI built with Vanilla JS, HTML, and CSS (featuring a space-themed aesthetic).
 
+This project focuses on simplifying complex civic processes using AI-driven adaptive learning and accessible design.
+
 ## 🌐 Live Demo
 https://electoguide-655808244864.asia-south1.run.app
 
@@ -15,6 +17,33 @@ Check out the [official launch post on LinkedIn](https://www.linkedin.com/posts/
 ## 🎯 Chosen Vertical
 **Civic Tech & Educational Technology (EdTech)**
 The project focuses on electoral literacy. It breaks down the democratic electoral process into an understandable, chronological journey.
+
+---
+
+## 🏗️ System Architecture
+
+ElectoGuide follows a simple but scalable architecture:
+
+- **Frontend (Vanilla JS + HTML + CSS)**  
+  Handles UI rendering, state transitions, and user interactions.
+
+- **Backend (Python HTTP Server)**  
+  - Handles `/api/chat` requests  
+  - Connects to Gemini API  
+  - Logs interactions to Firestore  
+
+- **AI Layer (Google Gemini 2.5 Flash)**  
+  Generates contextual responses based on:
+  - current stage
+  - user query
+
+- **Cloud Layer (Google Cloud Run)**  
+  - Containerized deployment  
+  - Auto-scaling backend  
+
+- **Data Layer (Firestore)**  
+  - Stores interaction logs  
+  - Enables analytics and scalability  
 
 ---
 
@@ -49,7 +78,13 @@ The architecture of ElectoGuide is built around **State-Driven Adaptive Learning
 To fulfill the requirement for meaningful integration of Google Services, ElectoGuide natively integrates multiple Google Cloud APIs:
 
 1. **Google Gemini API** (`gemini-2.5-flash`): Powers the contextual AI assistant to provide dynamic, stage-aware explanations.
-2. **Google Cloud Firestore**: Provides a robust backend logging mechanism to safely track interaction events and user queries.
+2. **Google Cloud Firestore**:
+   - Used to log real-time user interactions from the `/api/chat` endpoint.
+   - Each query is stored with:
+     - event type (user_query)
+     - user input
+     - server timestamp
+   - This enables analytics, debugging, and future personalization of learning paths.
 3. **Google Cloud Storage**: Initialized within the backend environment to prepare for scalable static asset and state storage.
 4. **Google Cloud Run**: The entire application is containerized and deployed as a scalable, serverless container on GCP.
 
@@ -57,7 +92,6 @@ To fulfill the requirement for meaningful integration of Google Services, Electo
 - **Latency Advantage**: Flash provides near-instantaneous responses, which is critical for a smooth, conversational educational flow.
 - **Cost Efficiency**: It is highly cost-effective for generating short, contextual educational explanations at scale.
 
-- **Context-Aware Q&A**: If a user types a custom question into the Web Dashboard's Command Bar, the application sends the user's question along with the *current election stage* to the Gemini API. 
 - **Dynamic Learning**: The AI generates a concise, contextually accurate response that explains the complex electoral nuance, returning it directly to the UI's Learning Console.
 
 ---
@@ -71,7 +105,7 @@ Throughout development, our prompt structure evolved to improve accuracy and con
   - Persona instructions ("You are ElectoGuide, an expert AI election assistant.")
   - Current stage context injected dynamically
   - User query
-  - Output constraints ("Provide a short, direct, and highly informative answer. max 3-4 sentences. Do not use markdown headers.")
+  - Output constraints ("Maximum 3–4 sentences. No markdown formatting.")
 - **Result**: This ensured context-aware, adaptive, and consistently formatted responses.
 
 ---
@@ -86,6 +120,38 @@ ElectoGuide includes several accessibility and multi-modal features designed to 
 - **Interactive Visual Timeline:** The "Timeline Mode" isn't just a list—it's a responsive, vertical UI stepper with glowing neon accents and pulsing waypoints that physically visualizes the user's journey through the election process.
 - **Accessibility Enhancements:** Features include a specialized "Explain Like I'm 10" mode that simplifies vocabulary and sentence structure, alongside a design system with larger, readable fonts and ARIA-compliant button labels.
 - **Security & Robustness:** Backend payload validation is strictly enforced with 500-character payload limits to prevent abuse and optimized header parsing to ensure the server never crashes on malformed HTTP requests.
+
+---
+
+## ⚡ Performance & Efficiency
+
+- Lightweight backend using Python’s built-in HTTP server (no heavy frameworks)
+- Minimal API calls (Gemini only triggered for user queries)
+- Optimized prompt size (short responses: 3–4 sentences)
+- Static frontend served efficiently via Cloud Run
+- Non-blocking UI with asynchronous fetch calls
+
+---
+
+## 🔐 Security Considerations
+
+- Input validation on all incoming API requests
+- Payload size limiting to prevent abuse
+- Environment variables used for API key management
+- Safe fallback handling if external services fail
+- No sensitive data exposed to frontend
+
+---
+
+## 🚧 Limitations & Future Work
+
+- Currently uses rule-based translation (can be replaced with real-time translation APIs)
+- Voice input depends on browser support (Web Speech API limitations)
+- Firestore logging is basic (can be extended for analytics dashboards)
+- Future plans:
+  - User accounts & progress tracking
+  - Real-time election data integration
+  - Mobile-first UI optimization
 
 ---
 

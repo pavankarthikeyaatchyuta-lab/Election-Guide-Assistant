@@ -10,7 +10,7 @@ https://electoguide-655808244864.asia-south1.run.app
 ---
 
 ## 📢 Project Announcement
-Check out the [official launch post on LinkedIn](https://www.linkedin.com/posts/pavan-karthikeya-atchyuta-3a5040354_promptwarsvirtual-buildwithai-promptwarsvirtual-ugcPost-7456380450064846848-IdGf?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFhIRi0Bgd3lw3t73PozqDSMLW6jDLjPfL8).
+Check out the [official launch post on LinkedIn](https://www.linkedin.com/posts/pavan-karthikeya-atchyuta-3a5040354_buildwithai-promptwarsvirtual-googlecloud-ugcPost-7456380450064846848-X7jX?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFhIRi0Bgd3lw3t73PozqDSMLW6jDLjPfL8).
 
 ---
 
